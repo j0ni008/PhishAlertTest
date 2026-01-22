@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+           xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+           xsi:type="MailApp">
+
+  <Id>ffe9f400-fc96-4e5f-9b5a-77d1dd7bdb3c</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Barbaric</ProviderName>
+  <DefaultLocale>de-DE</DefaultLocale>
+
+  <DisplayName DefaultValue="Barbaric Report"/>
+  <Description DefaultValue="Kennzeichnet E-Mails als ::SPAM:: oder ::Phishing:: im Betreff."/>
+
+  <IconUrl DefaultValue="https://YOURHOST/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://YOURHOST/assets/icon-80.png"/>
+
+  <SupportUrl DefaultValue="https://YOURHOST/support"/>
+
+  <AppDomains>
+    <AppDomain>YOURHOST</AppDomain>
+  </AppDomains>
+
+  <Hosts>
+    <Host Name="Mailbox"/>
+  </Hosts>
+
+  <Requirements>
+    <Sets DefaultMinVersion="1.8">
+      <Set Name="Mailbox"/>
+    </Sets>
+  </Requirements>
+
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://YOURHOST/commands.html"/>
+        <RequestedHeight>1</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+
+  <Permissions>ReadWriteItem</Permissions>
+
+  <!-- Compose only -->
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
+  </Rule>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1"
+                    xsi:type="VersionOverridesV1_1">
+    <Hosts>
+      <Host xsi:type="MailHost">
+        <DesktopFormFactor>
+          <FunctionFile resid="residFunctionFile"/>
+
+          <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+            <OfficeTab id="TabDefault">
+              <Group id="grpBarbaricReport">
+                <Label resid="residGroupLabel"/>
+
+                <!-- Dropdown (Menu) -->
+                <Control xsi:type="Menu" id="menuReport">
+                  <Label resid="residMenuLabel"/>
+                  <Supertip>
+                    <Title resid="residMenuLabel"/>
+                    <Description resid="residMenuDesc"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="residIcon16"/>
+                    <bt:Image size="32" resid="residIcon32"/>
+                    <bt:Image size="80" resid="residIcon80"/>
+                  </Icon>
+
+                  <Items>
+                    <Item id="itemSpam">
+                      <Label resid="residSpamLabel"/>
+                      <Supertip>
+                        <Title resid="residSpamLabel"/>
+                        <Description resid="residSpamDesc"/>
+                      </Supertip>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>markAsSpam</FunctionName>
+                      </Action>
+                    </Item>
+
+                    <Item id="itemPhishing">
+                      <Label resid="residPhishingLabel"/>
+                      <Supertip>
+                        <Title resid="residPhishingLabel"/>
+                        <Description resid="residPhishingDesc"/>
+                      </Supertip>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>markAsPhishing</FunctionName>
+                      </Action>
+                    </Item>
+                  </Items>
+                </Control>
+
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <Resources>
+      <bt:Images>
+        <bt:Image id="residIcon16" DefaultValue="https://YOURHOST/assets/icon-16.png"/>
+        <bt:Image id="residIcon32" DefaultValue="https://YOURHOST/assets/icon-32.png"/>
+        <bt:Image id="residIcon80" DefaultValue="https://YOURHOST/assets/icon-80.png"/>
+      </bt:Images>
+
+      <bt:Urls>
+        <bt:Url id="residFunctionFile" DefaultValue="https://YOURHOST/commands.html"/>
+      </bt:Urls>
+
+      <bt:ShortStrings>
+        <bt:String id="residGroupLabel" DefaultValue="Barbaric"/>
+        <bt:String id="residMenuLabel" DefaultValue="Report"/>
+        <bt:String id="residSpamLabel" DefaultValue="Spam"/>
+        <bt:String id="residPhishingLabel" DefaultValue="Phishing"/>
+      </bt:ShortStrings>
+
+      <bt:LongStrings>
+        <bt:String id="residMenuDesc" DefaultValue="Kennzeichnet den Betreff."/>
+        <bt:String id="residSpamDesc" DefaultValue="Fügt ::SPAM:: vorne im Betreff hinzu."/>
+        <bt:String id="residPhishingDesc" DefaultValue="Fügt ::Phishing:: vorne im Betreff hinzu."/>
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>
